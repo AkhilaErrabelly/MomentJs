@@ -1,0 +1,45 @@
+@keyframes spin {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+.spinner {
+  -webkit-animation: spin .5s linear infinite;
+  -moz-animation: spin .5s linear infinite;
+  animation: spin .5s linear infinite;
+  height: 45px;
+  width: 45px;
+  border: 5px solid #c22d30;
+  border-left: 5px solid #c22d30;
+  border-radius: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+  border-color: #bd7879;
+  border-left-color: #c33c3f;
+  text-align: center;
+}
+
+@media print {
+  .panel-wrapper {
+    font-size: 10px;
+  }
+  .panel-body {
+  }
+
+  .container-fluid {
+  
+    padding-right: 0px;
+  }
+  .tableForPrint {
+    top: -100px;
+  }
+  .panel-wrapper, .panel-body {
+    padding-left: 0px;
+  }
+  .TitleForPrint{
+      visibility: visible;
+  }
+  .TitleNotForPrint{
+      visibility: hidden;
+  }
+}

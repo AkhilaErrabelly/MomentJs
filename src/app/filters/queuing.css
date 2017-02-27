@@ -1,0 +1,82 @@
+li.filter-by{
+    display: inline-block;
+    padding-right:10px;
+}
+input.form-fixer {
+    padding: 1px;
+    font-size: small;
+}
+
+select.form-fixer{
+  font-size: small;
+}
+.ng-valid[required], .ng-valid.required  {
+  border: 2px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border: 2px solid #a94442; /* red */
+}
+.queuing-head {
+    background-color:gainsboro;
+}
+input,select {
+  padding: 0px;
+}
+td.td-three{
+  padding-right:40px;
+  width:150px;
+}
+
+.red {
+  border: 2px solid #a94442; /* red */
+}
+input[type=text]:enabled {
+    background:white;
+}
+
+input[type=text]:disabled {
+    background: #dddddd;
+}
+panel-body{
+  padding:0px;
+}
+.modal.modal-wide .modal-dialog {
+  width: 70%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+
+/* irrelevant styling */
+body { text-align: center; }
+body p { 
+  max-width: 400px; 
+  margin: 20px auto; 
+}
+#tallModal .modal-body p { margin-bottom: 900px }
+.display-block {
+  display: block;
+}
+@media print {
+  .panel-wrapper, .panel-body {
+    padding-left: 100px;
+  }
+  .tableForPrint {
+    top: -100px;
+  }
+  .panel-wrapper, .panel-body {
+    padding-left: 0px;
+  }
+  .TitleForPrint{
+      visibility: visible;
+      left:15px;
+  }
+  .TitleNotForPrint{
+      visibility: hidden;
+  }
+   .panel-wrapper {
+    font-size: 10px;
+  }
+}
+

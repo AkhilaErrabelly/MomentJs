@@ -1,0 +1,119 @@
+<div class="panel-wrapper" style="min-height:800px">
+	<div class="panel-head TitleForPrint">
+		<h3 >Measure Summary Report</h3>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-12 TitleForPrint">
+									<label class="col-sm-2 control-label">Report By</label>
+								<ul class="filter-holder">
+									<li class="filter-by" *ngFor="let filterBy of filters">
+										<input type="radio" value="{{filterBy.name}}" name="performanceFilters" [(ngModel)]="reportBy" /> {{filterBy.name}}
+									</li>
+								</ul>
+								</div>
+								<!--/.row -->
+							</div>
+							<div class="row">
+								<div class="col-md-12 TitleForPrint">
+									<label class="col-md-1 control-label">Date</label>
+									<div class="col-md-3">
+										<div class="input-group">
+											<div class="input-group">
+												<span class="input-group-addon">From</span>
+												<div class='input-group date' style="position:relative">
+													<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(fromDate)" name="ee" />
+													<span class="input-group-addon" (click)="(fromDateOpen = !fromDateOpen)">
+                                                 	<span class="glyphicon glyphicon-calendar"></span>
+													</span>
+													<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="fromDateOpen"
+														(click)="calendarClicked = true">
+														<datepicker [(ngModel)]="fromDate" showWeeks="true"></datepicker>
+													</div>
+												</div>
+												<!-- /.input-group -->
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+
+									<div class="col-md-3">
+										<div class="input-group">
+											<span class="input-group-addon">To</span>
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(toDate)" />
+												<span class="input-group-addon" (click)="(toDateOpen = !toDateOpen)">
+                                                              <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="toDateOpen"
+													(click)="calendarClicked = true">
+													<datepicker [(ngModel)]="toDate" showWeeks="true"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+									<button (click)="getMeasureSummaryReports()" class="btn btn-danger btn-sm TitleNotForPrint">Run Report</button>
+								</div>
+								<!--/.row -->
+							</div>
+							<!--/.col-sm-10 -->
+						</div>
+						<!--/.form-group -->
+					</div>
+					<hr>
+					<div class="container-fluid">
+
+					     	<!--  <a href="print.css" class="btn btn-success btn-sm print" (click)="print()">
+                                 <span class="glyphicon glyphicon-print"></span> Print
+                              </a>-->
+						    	<label style="float:right;padding-right:20px" >JVION Data Feed Date : {{dateJvion}}</label>
+
+						<table class="tableForPrint table table-bordered table-responsive">
+							<thead>
+								<tr>
+									<th class="col-md-3" (click)="sortColumn(measureSummaryReportsDetails, 'MeasureKey', 'string')"
+									    *ngIf="filteredReportBy == 'Measure'">Measure Key
+											<i class="icon-left" [ngClass]="getSortClass('MeasureKey')" aria-hidden="true"></i></th>
+									<th class="col-md-3" (click)="sortColumn(measureSummaryReportsDetails, 'VisitType', 'string')"
+									    *ngIf="filteredReportBy == 'Visit Type'">Visit Type
+											<i class="icon-left" [ngClass]="getSortClass('VisitType')" aria-hidden="true"></i></th>
+									<th class="col-md-3" (click)="sortColumn(measureSummaryReportsDetails, 'TotalCount', 'number')" >Total Count
+										<i class="icon-left" [ngClass]="getSortClass('TotalCount')" aria-hidden="true"></i>
+									</th>
+									<th class="col-md-2" (click)="sortColumn(measureSummaryReportsDetails, 'Completed', 'number')" >Completed
+										<i class="icon-left" [ngClass]="getSortClass('Completed')" aria-hidden="true"></i>
+									</th>
+									<th class="col-md-2" (click)="sortColumn(measureSummaryReportsDetails, 'Due', 'number')" >Due
+										<i class="icon-left" [ngClass]="getSortClass('Due')" aria-hidden="true"></i>
+									</th>
+									<th class="col-md-4" (click)="sortColumn(measureSummaryReportsDetails, 'PercentComplete', 'number')" >Percent Complete
+										<i class="icon-left"  [ngClass]="getSortClass('PercentComplete')" aria-hidden="true"></i>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="" *ngFor="let row of measureSummaryReportsDetails">
+									<td style="text-align:left" *ngIf="filteredReportBy == 'Measure'">{{row.MeasureKey}}</td>
+									<td  style="text-align:left" *ngIf="filteredReportBy == 'Visit Type'">{{row.VisitType}}</td>
+									<td>{{row.TotalCount}}</td>
+									<td>{{row.Completed}}</td>
+									<td>{{row.Due}}</td>
+									<td>{{row.PercentComplete}}%</td>
+								</tr>
+							</tbody>
+						</table>
+						<div style="width:100%;text-align: center;">
+										<span class="spinner"  *ngIf="!measureSummaryReportsDetails && refreshClicked" style="content-align:center"></span>
+									<div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

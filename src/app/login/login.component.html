@@ -1,0 +1,40 @@
+<div class="panel-wrapper" style="height:700px">
+	<div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-md-5 col-md-offset-2">
+					<div class="alert alert-danger alert-white rounded" *ngIf="errorMsg">
+						<button type="button" (click)="errorMsg=''" class="close">×</button>
+						<div class="icon">
+							<i class="fa fa-times-circle"></i>
+							<strong>{{errorMsg}}</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 col-md-5 col-md-offset-2">
+					<div class="account-wall">
+						<img class="profile-img" src="./app/images/THC_Logo.png" alt="">
+						<form class="form-signin">
+							<input type="text" id="user_name" class="form-control" placeholder="Username" [(ngModel)]="localUser.username" [ngModelOptions]="{standalone: true}"
+								required autofocus>
+							<input type="password" id="password" class="form-control" placeholder="Password" [(ngModel)]="localUser.password" [ngModelOptions]="{standalone: true}"
+								required>
+							<button class="btn btn-danger col-md-3 col-md-offset-4" type="submit" (click)='login()' ng-invalid="enter right username">
+                                      SIGN IN</button><br>
+							<label class="checkbox pull-right">
+                                <input type="checkbox" value="remember-me">
+                                 Remember me
+                               </label>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="dashboard-main">
+	<router-outlet></router-outlet>
+</div>

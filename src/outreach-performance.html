@@ -1,0 +1,129 @@
+<div class="panel-wrapper" style="min-height:800px">
+	<div class="panel-head">
+		<h3>Outreach Performance Report</h3>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-12">
+								<label class="col-sm-2 control-label">Report By</label>
+								<ul class="filter-holder">
+									<li class="filter-by" *ngFor="let filterBy of filters">
+										<input type="radio" value="{{filterBy.name}}" name="performanceFilters" [(ngModel)]="reportBy" /> {{filterBy.name}}
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-12">
+									<label class="col-sm-1 control-label">Date</label>
+									<div class="col-md-3">
+										<div class="input-group">
+											<div class="input-group">
+												<span class="input-group-addon">From</span>
+												<div class='input-group date' style="position:relative">
+													<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(fromDate)" name="ee" />
+													<span class="input-group-addon" (click)="(fromDateOpen = !fromDateOpen)">
+                                                              <span class="glyphicon glyphicon-calendar"></span>
+													</span>
+													<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="fromDateOpen"
+														(click)="calendarClicked = true">
+														<datepicker [(ngModel)]="fromDate" showWeeks="true"></datepicker>
+													</div>
+												</div>
+												<!-- /.input-group -->
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+									<div class="col-md-3">
+										<div class="input-group">
+											<span class="input-group-addon">To</span>
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(toDate)" />
+												<span class="input-group-addon" (click)="(toDateOpen = !toDateOpen)">
+                                                              <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="toDateOpen"
+													(click)="calendarClicked = true">
+													<datepicker [(ngModel)]="toDate" showWeeks="true"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+									<button (click)="getOutreachPerformance()" class="btn btn-danger btn-sm">Run Report</button>
+								</div>
+								<!--/.row -->
+							</div>
+							<!--/.col-sm-10 -->
+						</div>
+						<!--/.form-group -->
+					</div>
+					<hr>
+					<div class="container-fluid" style="padding:0px">
+						<!--	    <a href="print.css" class="btn btn-success btn-sm print" (click)="print()">
+                        <span class="glyphicon glyphicon-print"></span> Print
+                              </a>-->
+						<div class="table-responsive">
+							<table class="tableForPrint table table-bordered table-striped outreach-performance-table" style="border-top-color:white">
+
+								<thead>
+									<tr>
+										<th class="subtitle noTitle" colspan="3"></th>
+										<th class="subtitle one" colspan="2">Member</th>
+										<th class="subtitle two" colspan="1">Provider</th>
+										<th class="subtitle noTitle" colspan="1"></th>
+										<th class="subtitle one" colspan="2">Member</th>
+										<th class="subtitle two"> Provider</th>
+									</tr>
+									<tr>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'AgentName', 'string')" *ngIf="reportBy == 'Agent'">MAR Agent <i class="icon-left" [ngClass]="getSortClass('AgentName')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'AgentName', 'string')" *ngIf="reportBy == 'Measure'">Measure Key <i class="icon-left" [ngClass]="getSortClass('AgentName')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'DaysWorked', 'number')">Days Worked <i class="icon-left" [ngClass]="getSortClass('DaysWorked')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'MemberContacted', 'number')">Total Members Contacted <i class="icon-left" [ngClass]="getSortClass('MemberContacted')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'TotalCalls', 'number')">Total Calls <i class="icon-left" [ngClass]="getSortClass('TotalCalls')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'InitialCalls', 'number')">Initial Calls <i class="icon-left" [ngClass]="getSortClass('InitialCalls')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'ReminderCalls', 'number')"> Reminder Calls <i class="icon-left" [ngClass]="getSortClass('ReminderCalls')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'FollowUpCalls', 'number')"> FollowUp Calls <i class="icon-left" [ngClass]="getSortClass('FollowUpCalls')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'AppointmentScheduled', 'number')">Appointments Scheduled <i class="icon-left" [ngClass]="getSortClass('AppointmentScheduled')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'AvgCallsSched', 'number')">Average Calls Per Schedule <i class="icon-left" [ngClass]="getSortClass('AvgCallsSched')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'AvgInitialCalls', 'number')">Average Inital Calls <i class="icon-left" [ngClass]="getSortClass('AvgInitialCalls')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'AvgReminderCalls', 'number')">Average Reminder Calls <i class="icon-left" [ngClass]="getSortClass('AvgReminderCalls')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'AvgFollowupCalls', 'number')">Average Followup Calls <i class="icon-left" [ngClass]="getSortClass('AvgFollowupCalls')" aria-hidden="true"></i></th>
+										<th class="col-md-1" (click)="sortColumn(outreachPerformanceDetails, 'ParkingLot', 'number')">Parking Lot Calls <i class="icon-left" [ngClass]="getSortClass('ParkingLot')" aria-hidden="true"></i></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="" *ngFor="let row of outreachPerformanceDetails">
+										<td class="col-md-1" style="text-align:left">{{row.AgentName}}</td>
+										<td>{{row.DaysWorked}}</td>
+										<td>{{row.MemberContacted}}</td>
+										<td>{{row.TotalCalls}}</td>
+										<td>{{row.InitialCalls}}</td>
+										<td>{{row.ReminderCalls}}</td>
+										<td>{{row.FollowUpCalls}}</td>
+										<td>{{row.AppointmentScheduled}}</td>
+										<td>{{getParsedFloatContent(row.AvgCallsSched)}}</td>
+										<td>{{getParsedFloatContent(row.AvgInitialCalls)}}</td>
+										<td>{{getParsedFloatContent(row.AvgReminderCalls)}}</td>
+										<td>{{getParsedFloatContent(row.AvgFollowupCalls)}}</td>
+										<td>{{row.ParkingLot}}</td>
+									</tr>
+								</tbody>
+							</table>
+							<div style="width:100%;text-align: center;">
+								<span class="spinner" *ngIf="!outreachPerformanceDetails && refreshClicked" style="content-align:center">
+										</span>
+								<div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

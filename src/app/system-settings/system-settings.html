@@ -1,0 +1,99 @@
+<div class="panel-wrapper" style="width:90%">
+	<div class="panel-head">
+		<h3>Outreach Call Queue Setting</h3>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<!--error message  -->
+				<!--	<div *ngIf="isSaved" class="alert alert-success alert-white rounded col-md-3">
+						<button *ngIf="isSaved" type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+						<div class="icon">
+							<i class="fa fa-times-circle"></i>
+							<strong>{{saveMessage}}</strong>
+						</div>
+					</div>-->
+					<div *ngIf="saveClicked && !importSystemSettings.selected && !weeklyCallSystemSettings.selected && !assignTimeSystemSettings.selected"
+						class="alert alert-danger alert-white rounded col-md-3">
+						<button type="button" (click)="saveClicked=false" class="close">×</button>
+						<div class="icon">
+							<i class="fa fa-times-circle"></i>
+							<strong>Please select atleast one</strong>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-8">
+								<ul class="source-data-head" *ngIf=" isAdministrator()">
+									<li class="source-data col-md-1" style="padding:0px">
+										<input type="checkbox" [ngModel]="importSystemSettings.selected" (change)="importSystemSettings.selected = !importSystemSettings.selected"
+											*ngIf=" isAdministrator()" />
+									</li>
+									<li class="source-data col-md-5" style="padding:0px">
+										<label> Source Data Location</label>
+									</li>
+									<li class="source-data col-md-6" style="padding:0px">
+										<input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width:400px" [value]="importSystemSettings.SETTING_VAL"
+											[(ngModel)]="importSourcePath.SETTING_VAL" [disabled]="!importSystemSettings.selected" />
+									</li>
+								</ul>
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-md-8">
+								<ul *ngIf=" isManager()">
+									<li class="source-data  col-md-1" style="padding:0px"> <input type="checkbox" (change)="weeklyCallSystemSettings.selected = !weeklyCallSystemSettings.selected" *ngIf=" isManager()"/>
+									</li>
+									<li class="source-data col-md-5" style="padding:0px"> <label>Weekly Call Capacity Per Agent</label></li>
+									<li class="source-data col-md-6" style="padding:0px;width:50px"> <input type="text" class="form-control" [value]="weeklyCallcapacity.SETTING_VAL" [(ngModel)]="weeklyCallcapacity.SETTING_VAL"
+									[disabled]=" !weeklyCallSystemSettings.selected" /></li>
+								</ul>
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-md-8">
+								<ul *ngIf=" isManager()">
+									<li class="source-data col-md-1" style="padding:0px"> <input type="checkbox" (change)="assignTimeSystemSettings.selected = !assignTimeSystemSettings.selected" *ngIf=" isManager()"
+										/></li>
+									<li class="source-data col-md-5" style="padding:0px"><label>Build Queues Frequency</label></li>
+									<li class="source-data col-md-6" style="padding:0px;width:100px">
+										<select type="text" class="form-control input-sm" [ngModelOptions]="{standalone: true}" [(ngModel)]="filterAssignTime.SETTING_VAL"
+											[disabled]="!assignTimeSystemSettings.selected">
+                                         <option>Weekly</option>
+                                         <option>Tonight</option>
+                                       </select>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding-bottom:10px">
+				<div class="col-md-6 col-md-offset-4">
+					<button type="button" class="btn btn-danger" (click)="saveClicked=true;saveSystemSettings()">SAVE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal  fade in" id="systemSettingSaveSuccessful" [ngClass]="{'display-block': systemSettingSaveSuccessful}">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" (click)="refreshPage()">&times;</button>
+				<h3>Confirmation</h3>
+			</div>
+			<div class="modal-body">
+		       	<div class="alert alert-success alert-white">
+                           Record Updated Successfully.
+					  </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" (click)="refreshPage()">OK</button>
+			</div>
+		</div>
+	</div>
+</div>

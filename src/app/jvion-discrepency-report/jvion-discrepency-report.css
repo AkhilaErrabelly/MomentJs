@@ -1,0 +1,18 @@
+@media print {
+  .jvion-discrepency-report-table {
+    position: fixed;
+    height: auto;
+    width: auto;
+    left: 0;
+    top: 0;
+  }
+  .tableTitleForPrint{
+    visibility: visible;
+  }
+   .TitleNotForPrint{
+      visibility: hidden;
+  }
+   .panel-wrapper {
+    font-size: 10px;
+  }
+}

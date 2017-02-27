@@ -1,0 +1,173 @@
+
+/** This is for login - start. Placed here because angular 2 is not loading login.component.css*/
+
+
+input[type=text]:enabled {
+    background:white;
+}
+
+input[type=text]:disabled {
+    background: #dddddd;
+}
+
+/*.data-import {
+  width: auto;
+  }*/
+
+.panel{
+    
+    width:auto;
+    height:auto;
+}
+input{
+    padding-left:0;
+}
+.weeklyCall,.filtertime{
+    display: inline-block;
+    padding-right: 30px;
+
+}
+.nav-tabs{
+    width: 80%;
+}
+.panel-footer.panel-custom{
+    background-color:mintcream;
+}
+.source-data{
+    display: inline-block;
+    padding: 10px;
+}
+label.control-label{
+    padding-top:0px;
+
+}
+.tab-content{
+ padding-top:35px;
+}
+.save-btn{
+    width: 100px;
+    position: relative;
+    left: 300px;
+    bottom: 100px;
+}
+.data-checkbox{
+    right: 0px;
+}
+/** This is for dashboard - start. Placed here because angular 2 is not loading dashboard.component.css*/
+
+#page-content-wrapper {
+    position: absolute;
+    padding-left: 400px;
+    width: 100%;  
+    overflow-x: hidden; 
+}
+.xyz{
+    min-width: 360px;
+}
+#wrapper.toggled #page-content-wrapper {
+    position: relative;
+    margin-right: 0px; 
+}
+.fixed-brand{
+    width: auto;
+}
+/* Sidebar Styles */
+ 
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: 2px;
+}
+ 
+.sidebar-nav li {
+    text-indent: 15px;
+    line-height: 40px;
+}
+ 
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+ 
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+    border-left: red 2px solid;
+}
+ 
+ 
+ 
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 250px;
+    }
+    .fixed-brand{
+        width: 250px;
+    }
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+ 
+    #sidebar-wrapper {
+        width: 250px;
+    }
+ 
+    #wrapper.toggled #sidebar-wrapper {
+        width: 250px;
+    }
+    #wrapper.toggled-2 #sidebar-wrapper {
+        width: 50px;
+    }
+    #wrapper.toggled-2 #sidebar-wrapper:hover {
+        width: 250px;
+    }
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+ 
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+        padding-left: 250px;
+    }
+    #wrapper.toggled-2 #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+        margin-left: -200px;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+        width: auto;
+ 
+    }
+
+}
+.modal.modal-wide .modal-dialog {
+  width: 70%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+
+/* irrelevant styling */
+body { text-align: center; }
+body p { 
+  max-width: 400px; 
+  margin: 20px auto; 
+}
+#tallModal .modal-body p { margin-bottom: 900px }
+.display-block {
+  display: block;
+}

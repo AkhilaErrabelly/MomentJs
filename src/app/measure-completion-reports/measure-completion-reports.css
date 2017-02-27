@@ -1,0 +1,40 @@
+li.filter-by{
+    display: inline-block;
+}
+.subtitle{
+    color:black;
+    padding:1px;
+}
+.one{
+    background-color:#BFBFBF;
+}
+.two{
+    background-color:#D9D9D9;
+}
+.noTitle{
+ background-color:#FFFFFF;
+ border-color:#FFFFFF;
+
+}
+.icon-left{
+    float:right;
+
+}
+
+@media print {
+  .tableForPrint {
+    top: -100px;
+  }
+   .panel-wrapper {
+    font-size: 10px;
+  }
+  .panel-wrapper, .panel-body {
+    padding-left: 0px;
+  }
+  .TitleForPrint{
+      visibility: visible;
+  }
+  .TitleNotForPrint{
+      visibility: hidden;
+  }
+}

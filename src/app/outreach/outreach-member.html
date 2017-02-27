@@ -1,0 +1,427 @@
+<div class="panel-wrapper" style="background-color:#F2F9FC;border:0px">
+  <h3 style="color:#AB140E" class="TitleForPrint">Member Outreach Summary</h3>
+  <div class="panel" style="background-color:#F2F9FC;border:0px">
+    <div class="panel-head">
+      <div class="goBack" style="float:right">
+        <button (click)="goBack()" class="btn btn-danger btn-sm"><i class="fa fa-chevron-left "></i> go back</button>
+      </div>
+    </div>
+    <div>
+      <div class="panel" *ngFor="let currentInfo of outReachMembersInfo; let i = index;" style="background-color:#F2F9FC;border:0px">
+        <div class="container-fluid" *ngIf="i == 0" style="padding:0px">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading" style="color:white;background-color:#313131">
+                    <b>Member : {{currentInfo.MEM_KEY}}</b>
+                  </div>
+                  <div class="panel-body">
+                    <table>
+                      <tr>
+                        <td style="text-align:left">Name :</td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.MEM_NAME}}</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:left">DOB (Age): </td>
+                        <td style="text-align:left" class="user-info">{{getFormattedDate(currentInfo.MEM_DOB )|date:"MM/dd/yyyy" }} ({{currentInfo.MEM_AGE}} Yrs)</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:left"> Sex : </td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.MEM_SEX}}</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:left">Phone No:</td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.MEM_PHO_NO | phone}} </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:left">Address:</td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.MEM_ADD1}}, {{currentInfo.MEM_ADD2}}{{currentInfo.MEM_CITY}}, {{currentInfo.MEM_STATE}},
+                          {{currentInfo.MEM_ZIP}}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading" style="color:white;background-color:#313131"><b>Product Info</b></div>
+                  <div class="panel-body">
+                    <table>
+                      <tr>
+                        <td style="text-align:left">Subsriber ID:</td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.SUB_KEY}}</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:left">Product Type</td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.PDT_TYPE}}</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:left">Member Group: </td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.MEM_GRP}}</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:left">Enrollment Eff Date:</td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.ENROLL_EFF_DT |date:"MM/dd/yyyy"}} </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align:left">Enrollment Term Date: </td>
+                        <td style="text-align:left" class="user-info">{{currentInfo.ENROLL_TERM_DT |date:"MM/dd/yyyy"}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid" *ngIf="i == 0 || (otherProviderindex > -1 && i == outReachMembersInfo.length - 1)">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-heading" style="background-color:#313131">
+                  <b style="color:white">Provider: {{getProviderDetails(i).PDR_KEY}}</b>
+                  <button type="button" class="btn btn-sm btn-danger" style="float:right;" data-toggle="modal" data-target="#faxModal" (click)="getFaxInfo(currentInfo.MEM_KEY, getProviderDetails(i).PDR_KEY)">
+                                  <i class="fa fa-fax" ></i>  Fax Sheet </button>
+                  <!-- Modal button-->
+                </div>
+                <div class="panel-body">
+                  <table>
+                    <tr class="provider-inline">
+                      <td>Name : </td>
+                      <td>{{getProviderDetails(i).PDR_NAME}}</td>
+                    </tr>
+                    <tr class="provider-inline">
+                      <td>Address : </td>
+                      <td>{{getProviderDetails(i).PDR_ADD}}, {{getProviderDetails(i).PDR_CITY}}, {{getProviderDetails(i).PDR_STATE}},
+                        {{getProviderDetails(i).PDR_ZIP}}
+                      </td>
+                    </tr>
+                    <tr class="provider-inline">
+                      <td>Phone No : </td>
+                      <td>{{getProviderDetails(i).PDR_PHO_NO | phone}}</td>
+                    </tr>
+                    <tr class="provider-inline">
+                      <td>Fax No:</td>
+                      <td>{{getProviderDetails(i).PDR_FAX | phone}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel" style="background-color:#EEEEEE;margin:5px">
+          <div class="panel-body">
+            <div class="container-fluid" style="padding:0px">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="col-md-6">
+                    <div class="panel panel-default">
+                      <div class="panel-heading" style="color:white;background-color:#433F40">
+                        <b>{{currentInfo.MSR_DUE_DT | date:"yyyy"}} Measure: {{currentInfo.MSR_KEY}}</b>
+                      </div>
+                      <div class="panel-body">
+                        <table>
+                          <tr>
+                            <td style="text-align:left">Description:</td>
+                            <td style="text-align:left" class="user-info">{{currentInfo.MSR_DESC}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align:left">Stratification:</td>
+                            <td style="text-align:left" class="user-info">{{currentInfo.STRN}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align:left">Due Date:</td>
+                            <td style="text-align:left" class="user-info">{{currentInfo.MSR_DUE_DT |date:"MM/dd/yyyy"}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align:left">Visit Type:</td>
+                            <td style="text-align:left" class="user-info">{{currentInfo.MSR_VISIT_TYPE}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align:left;font-size:12px">Importance :</td>
+                            <td style="text-align:left;font-size:12px" class="user-info">{{currentInfo.IMP}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align:left;font-size:12px">Common Definition :</td>
+                            <td style="text-align:left;font-size:12px" class="user-info">{{currentInfo.COMN_DEF1}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align:left;color:red">Incentive :</td>
+                            <td style="text-align:left;color:red" class="user-info">{{currentInfo.INCENTIVE}}</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="container-fluid"></div>
+                    <div class="row"></div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading" style="color:white;background-color:#433F40">
+                        <b>Call Info</b>
+                      </div>
+                      <div class="panel-body">
+                        <div class="col-md-12">
+                          <table>
+                            <tr>
+                              <td style="text-align:left">Transport Eligible</td>
+                              <td style="text-align:left" class="user-info">
+                                <form>
+                                  <form ngForm action="">
+                                    <input type="radio" [(ngModel)]="currentInfo.IS_TRPT_ELG"
+                                      name="transportEligiable" value="Y" disabled>Yes
+                                    <input type="radio" [(ngModel)]="currentInfo.IS_TRPT_ELG"
+                                      name="transportEligiable" value="N"
+                                      disabled>No
+                                  </form>
+                                </form>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:left">Transport Provided</td>
+                              <td style="text-align:left" class="user-info">
+                                <form ngForm action="">
+                                  <input type="radio" [(ngModel)]="currentInfo.IS_TRPT_ARG"
+                                    name="transportArg" value="Y"
+                                    [disabled]="currentInfo.IS_TRPT_ELG == 'N'">Yes
+                                  <input type="radio" [(ngModel)]="currentInfo.IS_TRPT_ARG"
+                                    name="transportArg" value="N"
+                                    [disabled]="currentInfo.IS_TRPT_ELG == 'N'">No
+                                </form>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:left"> Call Status: </td>
+                              <td style="text-align:left" class="user-info">
+                                <select name="callStatus" class="form-control input-sm" id="callStatus" [(ngModel)]="currentInfo.CALL_STAT">
+                                    <option *ngFor="let callStatus of callStatusList[currentInfo.MMP_ID]" [value]="callStatus.CALL_STAT">
+                                      {{callStatus.CALL_STAT}}
+                                    </option>
+                                 </select>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:left">Appt Status:</td>
+                              <td style="text-align:left" class="user-info">
+                                <select name="appointmentStatus" class="form-control input-sm" id="appointmentStatus" [(ngModel)]="currentInfo.APPT_STAT" (change)="onApptStatusChange($event, currentInfo)">
+                                    <option value="Open">Open</option>
+                                    <option value="Scheduled">Scheduled</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:left">Appt Date</td>
+                              <td style="text-align:left" class="user-info">
+                                <div class='input-group date' style="position:relative" [ngClass]="{'error': savingCallInfo && !currentInfo.APPT_DT_TM && currentInfo.APPT_STAT == 'Scheduled'}">
+                                  <input type='text' class="form-control" id="mmpDate" readonly
+                                    [ngModel]="getApptDateBindingValue(currentInfo)"
+                                    [disabled]="getApptDateDisableStatus(currentInfo)" />
+                                  <span class="input-group-addon" (click)="!getApptDateDisableStatus(currentInfo) && (currentInfo.datePickerOpen = true)">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                  </span>
+                                  <div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="currentInfo.datePickerOpen"
+                                    (click)="calendarClicked = true">
+                                    <datepicker [(ngModel)]="currentInfo.APPT_DT_TM"
+                                      showWeeks="true"
+                                      [minDate]="getMinScheduleDate(currentInfo)">
+                                    </datepicker>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="text-align:left">Appt Time</td>
+                              <td style="text-align:left" class="user-info">
+                                <select name="appointmentStatus" class="form-control" id="appointmentStatus" [ngModel]="getApptTimeBindingValue(currentInfo)" (ngModelChange)="onAppointmentTimeChange($event, currentInfo)"
+                                  [disabled]="getApptDateDisableStatus(currentInfo)" [ngClass]="{'error': savingCallInfo && !currentInfo.APPT_TM && currentInfo.APPT_STAT == 'Scheduled'}">
+                                  <option *ngFor="let slot of getTimeSlots()"
+                                    value="{{slot}}">{{slot}}</option>
+                                 </select>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="2" style="text-align:left"> Comments:<br>
+                                <textarea name='comment' id='comment' style="width:100%;height:150px;"
+                                  [ngModel]="dummy"
+                                  (ngModelChange)="onCallInfoCommentChange($event, currentInfo)">
+                                </textarea>
+                                <br/>
+                                <input type='hidden' name='articleid' id='articleid' />
+                              </td>
+                              <td>
+                                <div class="row">
+                                  <div class="col-md-6 col-md-offset-4" style="bottom:60px;">
+                                    <button type="button" class="btn btn-danger"
+                                      (click)="saveCallInfo(currentInfo)">
+                                      SAVE
+                                    </button>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="panel panel-primary" *ngIf="callsHistoryInfo[currentInfo.MMP_ID]">
+                      <div class="panel-heading" Style="background-color: #433F40">
+                        <b> Call Histroy</b>
+                      </div>
+                      <table class="table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Transport Eligible</th>
+                            <th>Transport Provided</th>
+                            <th class="col-md-3">Call Status</th>
+                            <th>Appt Status</th>
+                            <th>Appt Date </th>
+                            <th>Appt Time </th>
+                            <th class="col-md-2">Agent Name</th>
+                            <th class="col-md-8">Comments:</th>
+                            <th>Created Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let historyInfo of callsHistoryInfo[currentInfo.MMP_ID]">
+                            <td>{{historyInfo.IS_TRPT_ELG == "Y"? "YES" : "NO"}}</td>
+                            <td>{{historyInfo.IS_TRPT_ARG == "Y"? "YES" : "NO"}}</td>
+                            <td>{{historyInfo.CALL_STAT}}</td>
+                            <td>{{historyInfo.APPT_STAT}}</td>
+                            <td *ngIf="historyInfo.APPT_STAT != 'Open'">{{historyInfo.APPT_DT_TM | date:"MM/dd/yyyy"}}</td>
+                            <td *ngIf="historyInfo.APPT_STAT == 'Open'"></td>
+                            <td *ngIf="historyInfo.APPT_STAT != 'Open'">{{historyInfo.APPT_DT_TM | date:"hh:mm a"}}</td>
+                            <td *ngIf="historyInfo.APPT_STAT == 'Open'"></td>
+                            <td>{{historyInfo.FNAME}}</td>
+                            <td>{{historyInfo.COMMENT}}</td>
+                            <td>{{historyInfo.CRT_DT}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tallModal" class="modal modal-wide fade" id="faxModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="faxInfo = undefined">&times;</button>
+        <div class="row">
+          <img id="faxModalImage" class="col-md-3 col-md-offset-5" src="./app/images/THC_Logo.png" style="width:200px;height:100px" />
+        </div>
+        <div class="row">
+          <h3 id="faxModalHeader" style="padding-right:5px;left:50px" class=" col-md-3 col-md-offset-5">FAX</h3>
+        </div>
+      </div>
+      <div class="spinner" *ngIf="!faxInfo">
+      </div>
+      <div class="modal-body" *ngIf="faxInfo">
+        <div class="model-table">
+          <table class="table table-striped table-bordered">
+            <tr>
+              <td class="col-md-1 left-align"><b>TO</b></td>
+              <td class="col-md-3 left-align">{{faxInfo[0].PDR_NAME}}</td>
+              <td class="col-md-1 left-align verticalLine"><b>FROM</b></td>
+              <td class="col-md-4 left-align">{{authService.getLoggedInUserFullName()}}</td>
+            </tr>
+            <tr>
+              <td class="col-md-3 left-align"><b>PROVIDER FAX</b></td>
+              <td class="col-md-3 left-align">{{faxInfo[0].PDR_FAX | phone}}</td>
+              <td class="col-md-3 left-align verticalLine"><b>FAX</b></td>
+              <td class="col-md-3 left-align">(844) 842-4968</td>
+            </tr>
+            <tr>
+              <td class="col-md-3 left-align"><b>PROVIDER PHONE</b></td>
+              <td class="col-md-3 left-align">{{faxInfo[0].PDR_PHO_NO | phone}}</td>
+              <td class="col-md-3 left-align verticalLine"><b>PHONE</b></td>
+              <td class="col-md-3 left-align">{{getPhoneNumber()}}</td>
+            </tr>
+            <tr>
+              <td class="col-md-3 left-align"><b>SUBJECT</b></td>
+              <td class="col-md-3 left-align"><b>HEDIS Measure Appt.</b></td>
+              <td class="col-md-3 left-align verticalLine"><b> DATE </b></td>
+              <td class="col-md-3 left-align">{{todaysDate | date:"MM/dd/yyyy"}}</td>
+            </tr>
+          </table>
+        </div>
+        <ul class="fax-member" *ngFor="let currentInfo of outReachMembersInfo;">
+          <tr>
+            <td class="left-align"><b> Member Name:</b></td>
+            <td class="left-align"> {{faxInfo[0].MEM_NAME}}</td>
+          </tr>
+          <tr>
+            <td class="left-align"><b>Member ID :  </b></td>
+            <td class="left-align">{{faxInfo[0].MEM_KEY}}</td>
+          </tr>
+          <tr>
+            <td class="left-align"><b>Member DOB :</b></td>
+            <td class="left-align">{{getFormattedDate(currentInfo.MEM_DOB)}}</td>
+          </tr>
+        </ul>
+        <table class="table table-bordered">
+          <thead>
+            <th class="left-align">Outstanding HEDIS Measures</th>
+            <th class="left-align">Due Date</th>
+            <th class="left-align">Appointment Details</th>
+          </thead>
+          <tr *ngFor="let info of faxInfo;let i = index;">
+            <td class="left-align">{{info.MSR_KEY}}</td>
+            <td class="left-align">{{info.MSR_DUE_DT | date:'MM/dd/yyyy'}}</td>
+            <td class="left-align">{{info.APPT_DT_TM | date:'MM/dd/yyyy hh:mm a'}}</td>
+          </tr>
+        </table><br>
+        <hr>
+        <article>
+          <p>
+            I will be in contact to confirm the appointment occured.
+            <br>
+            <br> Make It a Great Day!
+            <br>
+            <br> Total Health Care Health Coach Team<br> Totally There For You
+          </p>
+        </article>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success btn-lg" (click)="print()">
+          <span class="glyphicon glyphicon-print"></span> Print
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)='refreshModelPage()'>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal  fade in" id="callInfoSaveConfirmation" [ngClass]="{'display-block': callInfoSaveSuccessful}">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="refreshPage()">&times;</button>
+        <h3>Confirmation</h3>
+      </div>
+      <div class="modal-body">
+        Call info record updated successfully.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="refreshPage()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

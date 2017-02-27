@@ -1,0 +1,97 @@
+<div class="panel-wrapper" style="min-height:800px">
+		<div class="panel-head tableTitleForPrint">
+				<h3>JVION Discrepency Report</h3>
+			</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-12">
+									<label class="col-sm-1 control-label tableTitleForPrint">Date</label>
+									<div class="col-md-3 tableTitleForPrint">
+										<div class="input-group">
+											<div class="input-group">
+												<span class="input-group-addon">From</span>
+												<div class='input-group date' style="position:relative">
+													<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(fromDate)" name="ee" />
+													<span class="input-group-addon" (click)="(fromDateOpen = !fromDateOpen)">
+                                                 	<span class="glyphicon glyphicon-calendar"></span>
+													</span>
+													<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="fromDateOpen" (click)="calendarClicked = true">
+														<datepicker [(ngModel)]="fromDate" showWeeks="true"></datepicker>
+													</div>
+												</div>
+												<!-- /.input-group -->
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+
+									<div class="col-md-3 tableTitleForPrint">
+										<div class="input-group">
+											<span class="input-group-addon">To</span>
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(toDate)" />
+												<span class="input-group-addon" (click)="(toDateOpen = !toDateOpen)">
+                                                              <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="toDateOpen" (click)="calendarClicked = true">
+													<datepicker [(ngModel)]="toDate" showWeeks="true"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+									<button (click)="getJvionReconcilationDiscrepancyReport()" class="btn btn-danger btn-sm TitleNotForPrint"> Run Report </button>
+								</div>
+								<!--/.row -->
+							</div>
+							<!--/.col-sm-10 -->
+						</div>
+						<!--/.form-group -->
+					</div>
+					<hr>
+
+					<div class="container-fluid tableForPrint">
+					<!--	<a href="print.css" class="btn btn-success btn-sm print" (click)="print()">
+                                 <span class="glyphicon glyphicon-print"></span> Print
+                              </a> -->
+						<label style="float:right;padding-right:20px">JVION Data Feed Date : {{dateJvion}} </label>
+					  <button class="btn btn-sm TitleNotForPrint" (click)="jsonToCSVConvertor(jvionDiscrepencyReportsDetails, 'Jvion Discrepency Reports Details')">Export to Excel</button>
+						<table  class=" table table-bordered">
+							<thead>
+								<tr>
+									<th (click)="sortColumn(jvionDiscrepencyReportsDetails, 'MEM_KEY', 'number')">Member Key <i class="icon-left" [ngClass]="getSortClass('MEM_KEY')" aria-hidden="true"></i></th>
+									<th (click)="sortColumn(jvionDiscrepencyReportsDetails, 'MEM_NAME', 'string')">Member Name <i class="icon-left" [ngClass]="getSortClass('MEM_NAME')" aria-hidden="true"></i></th>
+									<th (click)="sortColumn(jvionDiscrepencyReportsDetails, 'MSR_KEY', 'number')">Measure Key <i class="icon-left" [ngClass]="getSortClass('MSR_KEY')" aria-hidden="true"></i></th>
+									<th (click)="sortColumn(jvionDiscrepencyReportsDetails, 'APPT_DT_TM', 'date')">Appointments Date and Time <i class="icon-left" [ngClass]="getSortClass('APPT_DT_TM')" aria-hidden="true"></i></th>
+									<th (click)="sortColumn(jvionDiscrepencyReportsDetails, 'PDR_KEY', 'number')">Provider Key <i class="icon-left" [ngClass]="getSortClass('PDR_KEY')" aria-hidden="true"></i></th>
+									<th (click)="sortColumn(jvionDiscrepencyReportsDetails, 'PDR_NAME', 'string')">Provider Name <i class="icon-left" [ngClass]="getSortClass('PDR_NAME')" aria-hidden="true"></i></th>
+									<th (click)="sortColumn(jvionDiscrepencyReportsDetails, 'PDR_PHO_NO', 'number')">Provider Phone No <i class="icon-left" [ngClass]="getSortClass('PDR_PHO_NO')" aria-hidden="true"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class=""  *ngFor="let row of jvionDiscrepencyReportsDetails">
+								
+									<td>{{row.MEM_KEY}}</td>
+									<td>{{row.MEM_NAME}}</td>
+									<td>{{row.MSR_KEY}}</td>
+									<td>{{row.APPT_DT_TM | date:"MM/dd/yyyy hh:mm a"}}</td>
+									<td>{{row.PDR_KEY}}</td>
+									<td>{{row.PDR_NAME}}</td>
+									<td>{{row.PDR_PHO_NO}}</td>
+								</tr>
+							</tbody>
+						</table>
+						  <div style="width:100%;text-align: center;">
+										<span class="spinner"  *ngIf="!jvionDiscrepencyReportsDetails && refreshClicked" style="content-align:center"></span>
+									<div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,108 @@
+<div class="panel-wrapper" style="min-height:800px">
+	<div class="panel-head">
+		<h3 class="TitleForPrint">Measure Completion Report</h3>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body tableForPrint">
+					<div class="container-fluid ">
+						<div class=" form-group">
+							<div class="row">
+								<div class="col-md-12">
+									<label class="col-sm-1 control-label">Date</label>
+									<div class="col-md-3">
+										<div class="input-group">
+											<div class="input-group">
+												<span class="input-group-addon">From</span>
+												<div class='input-group date' style="position:relative">
+													<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(fromDate)" name="ee" />
+													<span class="input-group-addon" (click)="(fromDateOpen = !fromDateOpen)">
+                                                 	<span class="glyphicon glyphicon-calendar"></span>
+													</span>
+													<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="fromDateOpen"
+														(click)="calendarClicked = true">
+														<datepicker [(ngModel)]="fromDate" showWeeks="true"></datepicker>
+													</div>
+												</div>
+												<!-- /.input-group -->
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+
+									<div class="col-md-3">
+										<div class="input-group">
+											<span class="input-group-addon">To</span>
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(toDate)" />
+												<span class="input-group-addon" (click)="(toDateOpen = !toDateOpen)">
+                            <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="toDateOpen"
+													(click)="calendarClicked = true">
+													<datepicker [(ngModel)]="toDate" showWeeks="true"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+									<button (click)="getMeasureCompletionReports()" class="btn btn-danger btn-sm  TitleNotForPrint"> Run Report</button>
+								</div>
+								<!--/.row -->
+							</div>
+							<!--/.col-sm-10 -->
+						</div>
+						<!--/.form-group -->
+					</div>
+					<hr>
+					<div class="container-fluid " style="padding:0px">
+						<!--<a href="print.css" class="btn btn-success btn-sm print" (click)="print()">
+									<span class="glyphicon glyphicon-print"></span> Print
+								</a> -->
+						<table class=" table table-bordered table-responsive " style="border-top-color:white">
+							<thead>
+								<tr>
+									<th class="subtitle noTitle"  colspan="1"></th>
+									<th class="subtitle one"  colspan="3">HEDIS OUTREACH</th>
+									<th class="subtitle two"  colspan="3">JVION UPDATE</th>
+									<th class="subtitle noTitle"  colspan="1"></th>
+								</tr>
+								<tr>
+									<th class="col-md-1" (click)="sortColumn(measureCompletionReportsDetails, 'MeasureKey', 'string')">Measure Key <i class="icon-left" [ngClass]="getSortClass('MeasureKey')" aria-hidden="true"></i></th>
+									<th class="col-md-1" (click)="sortColumn(measureCompletionReportsDetails, 'TotalAppointmentScheduled', 'number')">Total Appointments Scheduled <i class="icon-left" [ngClass]="getSortClass('TotalAppointmentScheduled')" aria-hidden="true"></i></th>
+									<th class="col-md-1" (click)="sortColumn(measureCompletionReportsDetails, 'AppointmentsNotCompleted', 'number')">Appointments Not Completed <i class="icon-left" [ngClass]="getSortClass('AppointmentsNotCompleted')" aria-hidden="true"></i></th>
+									<th class="col-md-1" (click)="sortColumn(measureCompletionReportsDetails, 'AppointmentCompleted', 'number')">Appointments Completed <i class="icon-left" [ngClass]="getSortClass('AppointmentCompleted')" aria-hidden="true"></i></th>
+									<th class="col-md-2" (click)="sortColumn(measureCompletionReportsDetails, 'JvionHedisMatchedComplete', 'number')">JVION-HEDIS Matched Complete <i class="icon-left" [ngClass]="getSortClass('JvionHedisMatchedComplete')" aria-hidden="true"></i></th>
+									<th class="col-md-2" (click)="sortColumn(measureCompletionReportsDetails, 'JvionHedisMatchedNotComplete', 'number')">
+										<a style="color:white" [routerLink]="['/jvion-discrepency-reports']" [queryParams]="{fromDate: fromDate, toDate: toDate}">
+											JVION-HEDIS Matched Not-Complete
+										</a>
+										<i class="icon-left" [ngClass]="getSortClass('JvionHedisMatchedNotComplete')" aria-hidden="true"></i>
+									</th>
+									<th class="col-md-2" (click)="sortColumn(measureCompletionReportsDetails, 'JvionTotalComplete', 'number')">JVION Total Completes <i class="icon-left" [ngClass]="getSortClass('JvionTotalComplete')" aria-hidden="true"></i></th>
+									<th class="col-md-2" (click)="sortColumn(measureCompletionReportsDetails, 'HedisCompletedImpactByOutreach', 'number')">HEDIS Completed Impact by Outreach <i class="icon-left" [ngClass]="getSortClass('HedisCompletedImpactByOutreach')" aria-hidden="true"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="" *ngFor="let row of measureCompletionReportsDetails">
+									<td class="col-md-1" style="text-align:left">{{row.MeasureKey}}</td>
+									<td>{{row.TotalAppointmentScheduled}}</td>
+									<td>{{row.AppointmentsNotCompleted}}</td>
+									<td>{{row.AppointmentCompleted}}</td>
+									<td>{{row.JvionHedisMatchedComplete}}</td>
+									<td>{{row.JvionHedisMatchedNotComplete}}</td>
+									<td>{{row.JvionTotalComplete}}</td>
+									<td>{{row.HedisCompletedImpactByOutreach}} %</td>
+								</tr>
+							</tbody>
+						</table>
+						<div style="width:100%;text-align: center;">
+							<span class="spinner" *ngIf="!measureCompletionReportsDetails && refreshClicked" style="content-align:center"></span>
+							<div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

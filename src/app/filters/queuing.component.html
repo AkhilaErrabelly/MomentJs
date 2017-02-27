@@ -1,0 +1,223 @@
+<div class="panel-wrapper">
+	<div class="panel-head">
+		<h3 class="TitleForPrint">Queuing-Filtering Allocation</h3>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="tab-content">
+				<!--Filter Allocation-->
+				<div>
+					<h4 class="panel-head"></h4>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<!-- Message for error and success(server/api message)--
+							<div *ngIf="isSaveSuccessful && saveMessage" class="alert alert-success alert-white rounded col-md-3">
+								<button type="button" (click)="saveMessage='';isSaveSuccessful=false;" class="close">×</button>
+								<div class="icon">
+									<i class="fa fa-check"></i>
+									<strong>{{saveMessage}}</strong>
+								</div>
+							</div>
+							<!-- Message for error and success(client validation)-->
+							<div *ngIf="submittingDetails && moreThanValidCount" class="alert alert-danger alert-white rounded col-md-3">
+								<button type="button" class="close" (click)="submittingDetails = false">×</button>
+								<div class="icon">
+									<i class="fa fa-times-circle"></i>
+									<strong>Total Allocation count should not be more than {{weeklyCallcapacity * users.length}}.</strong>
+								</div>
+							</div>
+							<div *ngIf="submittingDetails && zeroPercentage" class="alert alert-danger alert-white rounded col-md-3">
+								<button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+								<div class="icon">
+									<i class="fa fa-times-circle"></i>
+									<strong>Allocation precentage should be greater than 0.</strong>
+								</div>
+							</div>
+							<div *ngIf="submittingDetails && invalidPercentage" class="alert alert-danger alert-white rounded col-md-3">
+								<button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+								<div class="icon">
+									<i class="fa fa-times-circle"></i>
+									<strong>Record percentage should not be greater than 100.</strong>
+								</div>
+							</div>
+							<div *ngIf="submittingDetails && noSelection" class="alert alert-danger alert-white rounded col-md-3">
+								<button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+								<div class="icon">
+									<i class="fa fa-times-circle"></i>
+									<strong>Include at least one record.</strong>
+								</div>
+							</div>
+							<div class="container-fluid  ">
+								<div class="row">
+									<div class="col-md-12 " style="padding:0px">
+										<div class="col-md-7" style="padding:0px">
+											<div style="padding:0px;width:800px">
+												<div class="col-md-9 TitleForPrint" style="padding:0px">
+													<div class="col-md-3" style="padding:0px">
+														<div class="filter-head"><strong>Select Category</strong></div>
+													</div>
+													<div class="col-md-6" style="padding:0px">
+														<ul class="filter-holder">
+															<li class="filter-by" *ngFor="let filterBy of filters">
+																<input type="radio" value="{{filterBy.type}}" [(ngModel)]="selectedFilter" name="filterByCategory" (click)="onFilterChange(filterBy.type)" /> 
+																{{filterBy.name}}
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<!--Select catory-->
+											<!--- filter By -->
+											<div class="row">
+												<div class="col-md-8" style="padding:0px">
+													<div style="padding:0px;width:800px">
+														<div class="col-md-3 TitleForPrint"><strong>Filter By Due Date:</strong> </div>
+														<div class="col-md-5 TitleForPrint" style="padding:0px">
+															<div class="input-group">
+																<div class='input-group date' style="position:relative">
+																	<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(filterByDate)" />
+																	<span class="input-group-addon" (click)="(fromDateOpen = !fromDateOpen)">
+	                                                                              <span class="glyphicon glyphicon-calendar"></span>
+																	</span>
+																	<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="fromDateOpen"
+																		(click)="calendarClicked = true">
+																		<datepicker [ngModel]="filterByDate" showWeeks="true" (ngModelChange)="onDateFilterChange($event)"></datepicker>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-5" style="background-color:#F9F9F9;color:#AB140E;padding-left:30px;">
+											<div>
+												<div>
+													<div  style="background-color:#F9F9F9;padding:0px">
+														Weekly Call Capacity By Each Agent:
+														<b>{{weeklyCallcapacity}}</b>
+													</div><br>
+													<div style="background-color:#F9F9F9;padding:0px">
+														Total Number Of Active Agents :
+														<b>{{users && users.length}}</b>
+													</div> <br>
+													<div  style="background-color:#F9F9F9;padding:0px">
+														Total Weekly Call Capacity :
+														<b>
+                                                        {{weeklyCallcapacity * (users && users.length)}}
+                                                        </b>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr>
+							<div class="container-fluid tableForPrint" style="padding:0px">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="col-md-9">
+											<p class="table-head"><strong>Type Allocation and Agent Assignment</strong></p>
+											<table class="table table-sm table-hover table-bordered table-striped">
+												<thead class="queuing-head">
+													<tr>
+														<th class="col-md-4">{{selectedFilter == 'VT'? "Visit Type" : "Measure"}}</th>
+														<th class="col-md-2">Record Count</th>
+														<th class="col-md-1">Include</th>
+														<th class="col-md-3">Allocation %</th>
+														<th class="col-md-3" style="text-align:center">Allocation Count</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr scope="row" *ngFor="let rowObject of filterDetailsRows">
+														<td class="td-one" style="text-align:left">{{rowObject.type}}</td>
+														<td class="td-two" style="text-align:center">
+															{{rowObject.recordCount ? rowObject.recordCount : '0'}}
+														</td>
+														<td class="td-three" style="text-align:center">
+															<input type="checkbox" [ngModelOptions]="{standalone: true}" value="{{rowObject.isIncluded}}" [(ngModel)]="rowObject.isIncluded"
+																(change)="onRowSelectionChange(rowObject)" />
+														</td>
+														<td class="td-four" style="text-align:center">
+															<div class="input-group allocation-percentage" style="width:90px;text-align:center">
+																<input class="form-control input-sm" type="text" [(ngModel)]="rowObject.percentage" [disabled]="!rowObject.isIncluded" [ngClass]="{'red': rowObject.isIncluded && (rowObject.percentage <= 0 || rowObject.percentage > 100) && submittingDetails}"
+																	(change)="invalidPercentage = rowObject.percentage > 100">
+																<span class="input-group-addon">%</span>
+															</div>
+														</td>
+														<td class="td-five" style="text-align:center">{{getAllocationCount(rowObject)}}</td>
+													</tr>
+													<tr>
+														<td colspan="5" style="text-align:right" *ngIf="filterDetailsRows">Total Allocation Count : <b>{{getAllocationTotalCount()}}</b></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div class="col-md-3">
+												<p class="table-head"><strong>Agent Calls Count</strong></p>
+											<table class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th>Agent Name</th>
+														<th>Calls Count</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr *ngFor="let agentPotential of agentPotentials">
+														<td>{{agentPotential.Agent_Name}}</td>
+														<td>{{agentPotential.Calls_Count}}</td>
+
+													</tr>
+													<tr>
+														<td colspan="2" *ngIf="agentPotentials">Total Calls Count :<b>{{getAgentPotentialsTotalCount()}}</b></td>
+													</tr>
+												</tbody>
+											</table>
+										
+										</div>
+									</div>
+									
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding-bottom:10px">
+		<div class="col-md-6 col-md-offset-5">
+			<button type="button" class="btn btn-danger" (click)="saveFilterDetails()">
+                                      SAVE
+                </button>
+		</div>
+	</div>
+		</div>
+
+	</div>
+	
+
+
+</div>
+<div class="modal  fade in" id=" queuingFilterSaveSuccessful"
+      [ngClass]="{'display-block':  queuingFilterSaveSuccessful}">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                          (click)="refreshPage()">&times;</button>
+                        <h3>Confirmation</h3>
+                    </div>
+                    <div class="modal-body">
+                     <div class="alert alert-success alert-white">
+                           Record Updated Successfully.
+					  </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                          (click)="refreshPage()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>

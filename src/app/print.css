@@ -1,0 +1,38 @@
+@media print {
+   .panel-wrapper, .sidebar-nav li{
+       visibility: hidden;
+   }
+   body.model-open{
+       visibility: hidden;
+
+   }
+   .close{
+        visibility: hidden;
+
+   }
+  .tableForPrint{
+     visibility: visible;
+  }
+   body.model-open .model .model-header, body.model-open .model .model-body {
+        visibility: visible;
+         width:1000px;
+   }
+   .model{
+       position: absolute;
+       left: 0px;
+       top:0px;
+       margin: 0px;
+       padding: 0px;
+       overflow: visible!important;
+   }
+  
+   .modal-footer{
+       visibility: hidden;
+   }
+   .page
+    {
+     -webkit-transform: rotate(-90deg); 
+     -moz-transform:rotate(-90deg);
+     filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+}

@@ -1,0 +1,92 @@
+li.member-details{
+    display: inline-block;
+}
+.outreach-thead{
+    background-color:gainsboro;
+}
+th:hover {
+    cursor: pointer;
+}
+.user-info{
+    padding-left:60px;
+}
+panel-body{
+    padding: 0px;
+}
+tr.provider-inline{
+    display: inline-block;
+    padding-left: 20px;
+}
+input[type=text]:enabled {
+    background:white;
+}
+
+input[type=text]:disabled {
+    background: #dddddd;
+}
+input ,select {
+    padding : 0px;
+    font-size:13px;
+}
+td{
+    color: black;
+}
+li > .fax-li{
+    display: inline-block;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+    color: #fff;
+    cursor: default;
+    background-color:#C9302C;
+    border-color:#C9302C;
+}
+.pagination > li >a{
+    color: black;
+}
+.fax-li{
+    display:inline-block;
+}
+.modal.modal-wide .modal-dialog {
+  width: 70%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+
+/* irrelevant styling */
+body { text-align: center; }
+body p {
+  max-width: 400px;
+  margin: 20px auto;
+}
+#tallModal .modal-body p { margin-bottom: 900px }
+.display-block {
+  display: block;
+}
+.error {
+  border: 2px solid #a94442; /* red */
+}
+.verticalLine {
+    border-left: solid #a94442;
+}
+.left-align{
+    text-align:left;
+}
+.fax-member{
+    background-color:#F9F9F9;
+}
+@media print {
+ .tableForPrint {
+    top: -100px;
+  }
+  .panel-wrapper, .panel-body {
+    padding-left: 0px;
+  }
+  .TitleForPrint{
+      visibility: visible;
+  }
+  .TitleNotForPrint{
+      visibility: hidden;
+  }
+
+}

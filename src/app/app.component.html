@@ -1,0 +1,173 @@
+<div id="wrapper">
+	<nav class="navbar navbar-default no-margin" *ngIf="isRouterActive('/agent-assignment')||isRouterActive('/reassign-agent')||isRouterActive('/system-settings')||isRouterActive('/outreach')||isRouterActive('/filters')||isRouterActive('/data-import') || isRouterActive('/dashboard') || isRouterActive('/measure-completion-reports') || isRouterActive('/measure-summary-reports') || isRouterActive('/jvion-discrepency-reports') || isRouterActive('/parking-lot-reports')">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<a> <img class="navbar-brand" src="./app/images/THC_Logo.png" style="width:80px;height:60px"> </a>
+				<a class="navbar-brand" href="" style="float:left;color:gray"><strong class="first"><span class="big">H</span>EDIS</strong></a>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+               </button>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href=""><span class="sr-only">(current)</span></a></li>
+					<li>
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+							<ul id="sidebar_menu" class="nav navbar-nav">
+								<li class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" style="border:0px"><span class=" glyphicon glyphicon-align-justify" style="width:auto;color:gray"></span></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user" style="padding:10px;color:gray"></i>{{getUserFullName()}}</a>
+						<ul class="dropdown-menu">
+							<li><a class="loggedout" (click)="logout()"><i class="fa fa-sign-out"></i>LogOut</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="">
+						</a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<div class="main-sidebar" style="padding-top:66px">
+		<div id="sidebar-wrapper" *ngIf="isRouterActive('/agent-assignment')||isRouterActive('/reassign-agent')||isRouterActive('/system-settings')||isRouterActive('/outreach')||isRouterActive('/filters')||isRouterActive('/data-import') || isRouterActive('/dashboard') || isRouterActive('/measure-completion-reports') || isRouterActive('/measure-summary-reports') || isRouterActive('/jvion-discrepency-reports') || isRouterActive('/parking-lot-reports')">
+			<ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+				<li>
+					<a *ngIf="isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left">
+						</span><b>MANAGEMENT</b>
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131;hover:background:#949391" [routerLink]="['/filters']" [routerLinkActive]="['active']"
+						*ngIf="isManager()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-filter" aria-hidden="true"></i></span>Queuing-Filtering Allocation
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131;hover:background:#949391" [routerLink]="['/agent-assignment']" [routerLinkActive]="['active']"
+						*ngIf="isManager()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-random" aria-hidden="true"></i></span>Provider-Agent Assignment
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131" [routerLink]="['/data-import']" [routerLinkActive]="['active']" *ngIf="isAdministrator()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-download"></i></span>Data Import Setting
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131" [routerLink]="['/system-settings']" [routerLinkActive]="['active']" *ngIf="isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-cogs fa-stack-1x "></i></span>Outreach Call Queue Setting
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131" [routerLink]="['/outreach']" [routerLinkActive]="['active']" *ngIf="isAgent()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Member Outreach
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131" [routerLink]="['/reassign-agent']" [routerLinkActive]="['active']" *ngIf="isManager()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x" aria-hidden="true"></i></span> Reassign Agent
+					</a>
+				</li>
+				<li>
+					<a>
+						<span class="fa-stack fa-lg pull-left"></span>
+						<b> REPORTS</b>
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131;hover:background:#949391" [routerLink]="['/outreach-performance']" [routerLinkActive]="['active']"
+						*ngIf="isAgent()||isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left">
+						<i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+					</span> Outreach Performance Report
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131;hover:background:#949391" [routerLink]="['/measure-completion-reports']" [routerLinkActive]="['active']"
+						*ngIf="isAgent()||isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left">
+						<i class="fa fa-flag-o" aria-hidden="true"></i>
+					</span> Measure Completion Report
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131;hover:background:#949391" *ngIf="isManager() || isAdministrator()" [routerLink]="['/parking-lot-reports']"
+						[routerLinkActive]="['active']">
+						<span class="fa-stack fa-lg pull-left">
+						<i class="fa fa-car" aria-hidden="true"></i>
+					</span> Parking Lot Report
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131;hover:background:#949391" *ngIf="isManager() || isAdministrator()" [routerLink]="['/jvion-discrepency-reports']"
+						[routerLinkActive]="['active']">
+						<span class="fa-stack fa-lg pull-left">
+											<i class="fa fa-file-text-o"></i>
+										</span> JVION Discrepancy Report
+					</a>
+				</li>
+				<li>
+					<a style="background-color:#313131;hover:background:#949391" [routerLink]="['/measure-summary-reports']" [routerLinkActive]="['active']"
+						*ngIf="isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-list-alt" aria-hidden="true"></i></span> Measure Summary Report
+					</a>
+				</li>
+
+			</ul>
+
+			<!--<ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+				<!-- <li>
+                    <a [routerLink]="['/dashboard']" [routerLinkActive]="['active']" *ngIf=" !isManager() || !isAdministrator() ||!isAgent()">
+                        <span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard
+                    </a>
+                </li>--
+				<li>
+					<a [routerLink]="['/data-import']" [routerLinkActive]="['active']" *ngIf="isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-cog fa-stack-1x "></i></span>Import Settings
+					</a>
+				</li>
+				<li>
+					<a [routerLink]="['/system-settings']" [routerLinkActive]="['active']" *ngIf="isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-cogs fa-stack-1x "></i></span> System Settings
+					</a>
+				</li>
+				<li>
+					<a [routerLink]="['/filters']" [routerLinkActive]="['active']" *ngIf="isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-signal fa-stack-1x "></i></span>Assignment And Allocation
+					</a>
+				</li>
+				<li>
+					<a [routerLink]="['/reassign-agent']" [routerLinkActive]="['active']" *ngIf="isManager() || isAdministrator()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x" aria-hidden="true"></i></span> Reassign Agents
+					</a>
+				</li>
+				<li>
+					<a [routerLink]="['/outreach']" [routerLinkActive]="['active']" *ngIf="isAgent()">
+						<span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Outreach
+					</a>
+				</li>
+			</ul> -->
+		</div>
+		<div class="main-content">
+			<my-header></my-header>
+			<router-outlet></router-outlet>
+		</div>
+
+	</div>
+</div>
+<!--<footer>
+	 <div>
+		 Copyright © 2016 HEDIS. All rights reserved.
+	 </div>
+</footer>-->

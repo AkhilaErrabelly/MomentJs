@@ -1,0 +1,151 @@
+<div class="panel-wrapper" style="min-height:2000px">
+	<script src="https://rawgithub.com/eligrey/FileSaver.js/master/FileSaver.js" type="text/javascript"></script>
+	<div class="panel-head">
+		<h3 class="TitleForPrint">Parking Lot Report</h3>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body tableForPrint">
+					<div class="container-fluid">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-12">
+									<label class="col-sm-1 control-label">Date</label>
+									<div class="col-md-3">
+										<div class="input-group">
+											<div class="input-group">
+												<span class="input-group-addon">From</span>
+												<div class='input-group date' style="position:relative">
+													<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(fromDate)" name="ee" />
+													<span class="input-group-addon" (click)="(fromDateOpen = !fromDateOpen)">
+                                                 	<span class="glyphicon glyphicon-calendar"></span>
+													</span>
+													<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="fromDateOpen"
+														(click)="calendarClicked = true">
+														<datepicker [(ngModel)]="fromDate" showWeeks="true"></datepicker>
+													</div>
+												</div>
+												<!-- /.input-group -->
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+
+									<div class="col-md-3">
+										<div class="input-group">
+											<span class="input-group-addon">To</span>
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(toDate)" />
+												<span class="input-group-addon" (click)="(toDateOpen = !toDateOpen)">
+                                                              <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="toDateOpen"
+													(click)="calendarClicked = true">
+													<datepicker [(ngModel)]="toDate" showWeeks="true"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!-- /.input-group -->
+									</div>
+									<button (click)="getParkingLotReports()" class="btn btn-danger btn-sm TitleNotForPrint">Run Report</button> 
+									
+									 <button *ngIf="refreshClicked" type="button" class="btn btn-sm btn-danger TitleNotForPrint" style="float:right;" data-toggle="modal" data-target="#faxModal">
+														  Remove Data From Parking Lot
+								    </button>
+								</div>
+								<!--/.row -->
+							</div>
+							<!--/.col-sm-10 -->
+						</div>
+						<!--/.form-group -->
+					</div>
+					<hr>
+
+					<div class="container-fluid">
+						<!--<a href="print.css" class="btn btn-success btn-sm print" (click)="print()">
+							<span class="glyphicon glyphicon-print"></span> Print
+						</a>-->
+
+						<div>
+							<div>
+
+							</div>
+							<div class="row" style="table-responsive">
+								<button class="btn btn-sm TitleNotForPrint" (click)="jsonToCSVConvertor(parkingLotReportSummary, 'Parking Lot Report Summary')">Export to Excel</button>
+								<table class="tableForPrint table table-bordered table-responsive" style="width:400px">
+									<thead>
+										<tr>
+											<th (click)="sortColumn(parkingLotReportSummary , 'CALL_STAT', 'string')" class="col-md-2" style="text-align:left">Call Status 	<i [ngClass]="getSortClass('CALL_STAT')" aria-hidden="true"></i></th>
+											<th (click)="sortColumn(parkingLotReportSummary, 'Column1', 'number')" class="col-md-2">Member Count <i [ngClass]="getSortClass('Column1')" aria-hidden="true"></i></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="" *ngFor="let row of parkingLotReportSummary">
+											<td style="text-align:left">{{row.CALL_STAT}}</td>
+											<td>{{row.Column1}}</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="table-responsive">
+									<button class="btn btn-sm TitleNotForPrint" (click)="jsonToCSVConvertor(parkingLotReportDetails, 'Parking Lot Report Details')">Export to Excel</button>
+									<table class="tableForPrint table table-sm table-bordered table-responsive ">
+										<thead>
+											<tr>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'MEM_KEY', 'number')">Member ID <i [ngClass]="getSortClass('MEM_KEY')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'MEM_NAME', 'string')">Member Name <i [ngClass]="getSortClass('MEM_KEY')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'MSR_KEY', 'string')">Measure Due <i [ngClass]="getSortClass('MSR_KEY')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'CALL_STAT', 'string')">Call Status <i [ngClass]="getSortClass('CALL_STAT')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'MEM_ADD1', 'string')">Member Address1 <i [ngClass]="getSortClass('MEM_ADD1')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'MEM_ADD2', 'string')">Member Address2 <i [ngClass]="getSortClass('MEM_ADD2')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'MEM_CITY', 'string')">City <i [ngClass]="getSortClass('MEM_CITY')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'MEM_STATE', 'string')">State <i [ngClass]="getSortClass('MEM_STATE')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'MEM_ZIP', 'number')">ZIP <i [ngClass]="getSortClass('MEM_ZIP')" aria-hidden="true"></i></th>
+												<th class="col-md-1" (click)="sortColumn(parkingLotReportDetails, 'COMMENT', 'string')">Comments <i [ngClass]="getSortClass('COMMENT')" aria-hidden="true"></i></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="" *ngFor="let row of parkingLotReportDetails">
+												<td>{{row.MEM_KEY}}</td>
+												<td>{{row.MEM_NAME}}</td>
+												<td>{{row.MSR_KEY}}</td>
+												<td>{{row.CALL_STAT}}</td>
+												<td>{{row.MEM_ADD1}}</td>
+												<td>{{row.MEM_ADD2}}</td>
+												<td>{{row.MEM_CITY}}</td>
+												<td>{{row.MEM_STATE}}</td>
+												<td>{{row.MEM_ZIP}}</td>
+												<td>{{row.COMMENT}}</td>
+											</tr>
+										</tbody>
+									</table>
+									<!--	<div style="width:100%;text-align: center;">
+										<span class="spinner"  *ngIf="!parkingLotReportDetails && refreshClicked" style="content-align:center"></span>
+									<div>-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="faxModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>	
+                <div class="modal-body">           
+                 <strong>  The Parking Lot Calls between the selected dates with be removed  !!</strong><br>
+				 Do you still want to continue ?
+                </div>
+                <div class="modal-footer">
+					<button type="button" class="btn btn-danger" (click)=removeFromParkingLot()>Yes</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>

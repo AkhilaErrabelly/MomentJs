@@ -1,0 +1,294 @@
+<div class="panel-wrapper" style="max-width:800px;">
+	<h3>Data Import Setting</h3>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body" style="padding-bottom:0px">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a data-toggle="tab" href="#manualTab">
+								<p>Manual (One time)</p>
+							</a>
+						</li>
+						<li>
+							<a data-toggle="tab" href="#automaticTab">
+								<p>Automatic (Recurring)</p>
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content clearfix" style="padding-bottom:0px">
+						<!--Manual-->
+						<div id="manualTab" class="tab-pane fade in active" *ngIf="manualImportsData">
+							<div class="adminConfiguration row">
+								<div class="sectionContent col-md-8">
+									<div class="sectionContent col-md-12">
+										<div class="col-md-1">
+											<input class="data-checkbox" type="checkbox" id="mmpChecked" [ngModel]="manualImportsData.mmp.selected" (change)="manualImportsData.mmp.selected = !manualImportsData.mmp.selected">
+										</div>
+										<div class="col-md-2" style="padding:2px" >
+											<label for="mmpDate" class="control-label">MMP</label>
+										</div>
+										<!-- calender-->
+										<div class="form-group col-md-4" style="min-width:160px;max-width:160px">
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control" id="mmpDate" readonly [ngModel]="getFormattedDate(manualImportsData.mmp.IMPORT_DT_TM)"
+													[disabled]="!manualImportsData.mmp.selected" />
+												<span class="input-group-addon" (click)="manualImportsData.mmp.selected && (manualImportsData.mmp.datePickerOpen = !manualImportsData.mmp.datePickerOpen)">
+                          <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="manualImportsData.mmp.datePickerOpen"
+													(click)="calendarClicked = true">
+													<datepicker [(ngModel)]="manualImportsData.mmp.IMPORT_DT_TM" showWeeks="true" [maxDate]="getMaxDate()"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!--calender-->
+										<!--time-->
+										<div class="form-group col-md-4" style="min-width:150px;max-width:150px">
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control" id="mmpTime" readonly [ngModel]="getTimeComponent(manualImportsData.mmp.IMPORT_DT_TM)"
+													[disabled]="!manualImportsData.mmp.selected">
+												<span class="input-group-addon" (click)="manualImportsData.mmp.selected && (manualImportsData.mmp.timePickerPickerOpen = !manualImportsData.mmp.timePickerPickerOpen)">
+                          <span class="glyphicon glyphicon-time"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;left:0px; z-index:10000;width: 130px;background: white;border: 1px solid gainsboro;"
+													*ngIf="manualImportsData.mmp.timePickerPickerOpen">
+													<timepicker [(ngModel)]="manualImportsData.mmp.IMPORT_DT_TM" [showMeridian]="showMeridian" (click)="setCalendarClicked()"></timepicker>
+												</div>
+											</div>
+										</div>
+										<!-- time-->
+									</div>
+									<div class="sectionContent col-md-12">
+										<div class="col-md-1">
+											<input class="data-checkbox" type="checkbox" id="measureChecked" [ngModel]="manualImportsData.measure.selected" (change)="manualImportsData.measure.selected = !manualImportsData.measure.selected">
+										</div>
+										<div class="col-md-2" style="padding:2px">
+											<label for="measureDate" class="control-label">MEASURE</label>
+										</div>
+										<!-- calender-->
+										<div class="form-group col-md-4" style="min-width:160px;max-width:160px">
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control" id="mmpDate" readonly [ngModel]="getFormattedDate(manualImportsData.measure.IMPORT_DT_TM)"
+													[disabled]="!manualImportsData.measure.selected" />
+												<span class="input-group-addon" (click)="manualImportsData.measure.selected && (manualImportsData.measure.datePickerOpen = !manualImportsData.measure.datePickerOpen)">
+                          <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="manualImportsData.measure.datePickerOpen"
+													(click)="calendarClicked = true">
+													<datepicker [(ngModel)]="manualImportsData.measure.IMPORT_DT_TM" showWeeks="true"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!-- calender-->
+										<!-- time-->
+										<div class="form-group col-md-4" style="min-width:150px;max-width:150px">
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control" id="mmpTime" readonly [ngModel]="getTimeComponent(manualImportsData.measure.IMPORT_DT_TM)"
+													[disabled]="!manualImportsData.measure.selected">
+												<span class="input-group-addon" (click)="manualImportsData.measure.selected && (manualImportsData.measure.timePickerPickerOpen = !manualImportsData.measure.timePickerPickerOpen)">
+                          <span class="glyphicon glyphicon-time"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;left:0px; z-index:10000;width: 130px;background: white;border: 1px solid gainsboro;"
+													*ngIf="manualImportsData.measure.timePickerPickerOpen">
+													<timepicker [(ngModel)]="manualImportsData.measure.IMPORT_DT_TM" [showMeridian]="showMeridian" (click)="setCalendarClicked()"></timepicker>
+												</div>
+											</div>
+										</div>
+										<!-- time-->
+									</div>
+						<!--<div class="sectionContent col-md-12">
+                  <div class="col-xs-4 col-md-2">
+                    <div class='checkbox'>
+                      <input class="data-checkbox" type="checkbox" id="performanceChecked" [ngModel]="manualImportsData.performance.selected" (change)="manualImportsData.performance.selected = !manualImportsData.performance.selected">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label for="performanceDate" class="control-label">PERFORMANCE</label>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <div class='input-group date' style="position:relative">
+                      <input type='text' class="form-control" id="mmpDate" readonly [ngModel]="getFormattedDate(manualImportsData.performance.IMPORT_DT_TM)"
+                        [disabled]="!manualImportsData.performance.selected" />
+                      <span class="input-group-addon" (click)="manualImportsData.performance.selected && (manualImportsData.performance.datePickerOpen = !manualImportsData.performance.datePickerOpen)">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                      <div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="manualImportsData.performance.datePickerOpen"
+                        (click)="calendarClicked = true">
+                        <datepicker [(ngModel)]="manualImportsData.performance.IMPORT_DT_TM" showWeeks="true"></datepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <div class='input-group date' style="position:relative">
+                      <input type='text' class="form-control" id="mmpTime" readonly [ngModel]="getTimeComponent(manualImportsData.performance.IMPORT_DT_TM)"
+                        [disabled]="!manualImportsData.performance.selected">
+                      <span class="input-group-addon" (click)="manualImportsData.performance.selected && (manualImportsData.performance.timePickerPickerOpen = !manualImportsData.performance.timePickerPickerOpen)">
+                          <span class="glyphicon glyphicon-time"></span>
+                      </span>
+                      <div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;left:0px; z-index:10000;width: 130px;background: white;border: 1px solid gainsboro;"
+                        *ngIf="manualImportsData.performance.timePickerPickerOpen">
+                        <timepicker [(ngModel)]="manualImportsData.performance.IMPORT_DT_TM" [showMeridian]="showMeridian" (click)="setCalendarClicked()"></timepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>-->
+								</div>
+							</div>
+						</div>
+
+						<!--Automatic-->
+						<div id="automaticTab" class="tab-pane fade" *ngIf="automaticImportsData">
+							<div class="adminConfiguration row">
+								<div class="sectionContent col-md-8">
+									<div class="sectionContent col-md-12">
+										<div class="col-md-1">
+											<input class="data-checkbox" type="checkbox" id="autommpChecked" [ngModel]="automaticImportsData.mmp.selected" (change)="automaticImportsData.mmp.selected = !automaticImportsData.mmp.selected"
+											/>
+										</div>
+										<div class="col-md-2" style="padding:2px">
+											<label for="autommpDate" class="control-label">MMP</label>
+										</div>
+										<!-- calender-->
+										<div class="form-group col-md-4" style="min-width:160px;max-width:160px">
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control" id="autommpDate" readonly [ngModel]="getFormattedDate(automaticImportsData.mmp.IMPORT_DT_TM)"
+													[disabled]="!automaticImportsData.mmp.selected" />
+												<span class="input-group-addon" (click)="automaticImportsData.mmp.selected && (automaticImportsData.mmp.datePickerOpen = !automaticImportsData.mmp.datePickerOpen)">
+                          <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="automaticImportsData.mmp.datePickerOpen"
+													(click)="calendarClicked = true">
+													<datepicker [(ngModel)]="automaticImportsData.mmp.IMPORT_DT_TM" showWeeks="true"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!-- calender-->
+										<!-- time-->
+										<div class="form-group col-md-4" style="min-width:150px;max-width:150px">
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control" id="autommpTime" readonly [ngModel]="getTimeComponent(automaticImportsData.mmp.IMPORT_DT_TM)"
+													[disabled]="!automaticImportsData.mmp.selected">
+												<span class="input-group-addon" (click)="automaticImportsData.mmp.selected && (automaticImportsData.mmp.timePickerPickerOpen = !automaticImportsData.mmp.timePickerPickerOpen)">
+                          <span class="glyphicon glyphicon-time"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;left:0px; z-index:10000;width: 130px;background: white;border: 1px solid gainsboro;"
+													*ngIf="automaticImportsData.mmp.timePickerPickerOpen">
+													<timepicker [(ngModel)]="automaticImportsData.mmp.IMPORT_DT_TM" [showMeridian]="showMeridian" (click)="setCalendarClicked()"></timepicker>
+												</div>
+											</div>
+										</div>
+										<!-- time-->
+									</div>
+									<div class="sectionContent col-md-12">
+										<div class="col-xs-4 col-md-1">
+											<input class="data-checkbox" type="checkbox" id="automeasureChecked" [ngModel]="automaticImportsData.measure.selected" (change)="automaticImportsData.measure.selected = !automaticImportsData.measure.selected"
+											/>
+										</div>
+										<div class="col-md-2" style="padding:2px">
+											<label for="automeasureDate" class="control-label">MEASURE</label>
+										</div>
+										<!-- calender-->
+										<div class="form-group col-md-4 calender" style="min-width:160px;max-width:160px">
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control" id="autommpDate" readonly [ngModel]="getFormattedDate(automaticImportsData.measure.IMPORT_DT_TM)"
+													[disabled]="!automaticImportsData.measure.selected" />
+												<span class="input-group-addon" (click)="automaticImportsData.measure.selected && (automaticImportsData.measure.datePickerOpen = !automaticImportsData.measure.datePickerOpen)">
+                          <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="automaticImportsData.measure.datePickerOpen"
+													(click)="calendarClicked = true">
+													<datepicker [(ngModel)]="automaticImportsData.measure.IMPORT_DT_TM" showWeeks="true"></datepicker>
+												</div>
+											</div>
+										</div>
+										<!-- calender-->
+										<!-- time-->
+										<div class="form-group col-md-4 time" style="min-width:150px;max-width:150px">
+											<div class='input-group date' style="position:relative">
+												<input type='text' class="form-control" id="autommpTime" readonly [ngModel]="getTimeComponent(automaticImportsData.measure.IMPORT_DT_TM)"
+													[disabled]="!automaticImportsData.measure.selected">
+												<span class="input-group-addon" (click)="automaticImportsData.measure.selected && (automaticImportsData.measure.timePickerPickerOpen = !automaticImportsData.measure.timePickerPickerOpen)">
+                          <span class="glyphicon glyphicon-time"></span>
+												</span>
+												<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;left:0px; z-index:10000;width: 130px;background: white;border: 1px solid gainsboro;"
+													*ngIf="automaticImportsData.measure.timePickerPickerOpen">
+													<timepicker [(ngModel)]="automaticImportsData.measure.IMPORT_DT_TM" [showMeridian]="showMeridian" (click)="setCalendarClicked()"></timepicker>
+												</div>
+											</div>
+										</div>
+										<!-- time-->
+									</div>
+							<!--<div class="sectionContent col-md-12">
+                  <div class="col-xs-4 col-md-2">
+                    <div class='checkbox'>
+                      <input class="data-checkbox" type="checkbox" id="autoperformanceChecked" [ngModel]="automaticImportsData.performance.selected" (change)="automaticImportsData.performance.selected = !automaticImportsData.performance.selected">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label for="autoperformanceDate" class="control-label">PERFORMANCE</label>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <div class='input-group date' style="position:relative">
+                      <input type='text' class="form-control" id="autommpDate" readonly [ngModel]="getFormattedDate(automaticImportsData.performance.IMPORT_DT_TM)"
+                        [disabled]="!automaticImportsData.performance.selected" />
+                      <span class="input-group-addon" (click)="automaticImportsData.performance.selected && (automaticImportsData.performance.datePickerOpen = !automaticImportsData.performance.datePickerOpen)">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                      <div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="automaticImportsData.performance.datePickerOpen"
+                        (click)="calendarClicked = true">
+                        <datepicker [(ngModel)]="automaticImportsData.performance.IMPORT_DT_TM" showWeeks="true"></datepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <div class='input-group date' style="position:relative">
+                      <input type='text' class="form-control" id="autommpTime" readonly [ngModel]="getTimeComponent(automaticImportsData.performance.IMPORT_DT_TM)"
+                        [disabled]="!automaticImportsData.performance.selected">
+                      <span class="input-group-addon" (click)="automaticImportsData.performance.selected && (automaticImportsData.performance.timePickerPickerOpen = !automaticImportsData.performance.timePickerPickerOpen)">
+                          <span class="glyphicon glyphicon-time"></span>
+                      </span>
+                      <div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;left:0px; z-index:10000;width: 130px;background: white;border: 1px solid gainsboro;"
+                        *ngIf="automaticImportsData.performance.timePickerPickerOpen">
+                        <timepicker [(ngModel)]="automaticImportsData.performance.IMPORT_DT_TM" [showMeridian]="showMeridian" (click)="setCalendarClicked()"></timepicker>
+                      </div>
+                       </div>
+                     </div>
+                    </div>
+                  </div>
+                </div>  -->
+								</div>
+							</div>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-md-offset-4">
+						<button type="button" class="btn btn-danger" (click)="saveConfig()">SAVE</button>
+					</div>
+		</div>		
+	</div>
+</div>
+<div class="modal  fade in" id="dataImportSaveSuccessful"
+      [ngClass]="{'display-block': dataImportSaveSuccessful}">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                          (click)="refreshPage()">&times;</button>
+                        <h3>Confirmation</h3>
+                    </div>
+                    <div class="modal-body">
+                     <div class="alert alert-success alert-white">
+                           Record Updated Successfully.
+					            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                          (click)="refreshPage()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>

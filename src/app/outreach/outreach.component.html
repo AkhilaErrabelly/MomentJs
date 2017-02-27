@@ -1,0 +1,151 @@
+<div class="panel-wrapper">
+	<h3 style="color:#AB140E" class="TitleForPrint">Outreach Queue</h3>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<ul class="nav nav-tabs">
+				<li [ngClass]="{'active' : activeTab == 1}" (click)="activeTab = 1">
+					<a href="#1" class="tab" data-toggle="tab">Initial Calls</a>
+				</li>
+				<li [ngClass]="{'active' : activeTab == 2}" (click)="activeTab = 2">
+					<a href="#2" class="tab" data-toggle="tab">Reminder Calls</a>
+				</li>
+				<li [ngClass]="{'active' : activeTab == 3}" (click)="activeTab = 3">
+					<a href="#3" class="tab" data-toggle="tab">Follow-up Calls </a>
+				</li>
+			</ul>
+			<div class="tab-content tableForPrint ">
+				<div class="tab-pane" id="1" [ngClass]="{'active' : activeTab == 1}">
+					<label style="float:right"><i class="fa fa-search" aria-hidden="true"></i>
+                     <input type="text" [ngModel]="filterValueInitial"
+                      (ngModelChange)="filterData($event, 'initialCalls')"></label>
+					<table class="table table-striped table-bordered table-hover ">
+						<thead class="outreach-thead">
+							<tr>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['initialCalls'], 'MEM_NAME', 'string')">Member Name <i class="icon-left" [ngClass]="getSortClass('MEM_NAME')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['initialCalls'], 'MSR_DUE_DT', 'date')">Measure Due Date <i class="icon-left" [ngClass]="getSortClass('MSR_DUE_DT')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['initialCalls'], 'MSR_KEY', 'string')">Measure Key <i class="icon-left" [ngClass]="getSortClass('MSR_KEY')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['initialCalls'], 'CALL_STAT','string')">Call Status <i class="icon-left" [ngClass]="getSortClass('CALL_STAT')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['initialCalls'], 'PDT_TYPE', 'string')"> Product Type <i class="icon-left" [ngClass]="getSortClass('PDT_TYPE')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['initialCalls'], 'PDR_NAME', 'string')">Provider Name <i class="icon-left" [ngClass]="getSortClass('PDR_NAME')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2"></th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="outreachRow" *ngFor="let row of getFilterData('initialCalls')">
+								<td style="text-align:left">{{row.MEM_NAME}}</td>
+								<td style="text-align:left">{{row.MSR_DUE_DT| date:"MM/dd/yyyy"}}</td>
+								<td style="text-align:left">{{row.MSR_KEY}}</td>
+								<td style="text-align:left">{{row.CALL_STAT}}</td>
+								<td style="text-align:left">{{row.PDT_TYPE}}</td>
+								<td style="text-align:left">{{row.PDR_NAME}}</td>
+								<td>
+									<button class="btn btn-danger btn-sm" (click)="onInfoClick(row.MMP_ID)">Info</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ng-pagination *ngIf="showPagination('initialCalls')"
+						[(totalItems)]="paginationData.initialCalls.totalItems"
+						[(currentPage)]="paginationData.initialCalls.currentPage"
+						[maxSize]="maxSize" [boundaryLinks]="true"
+						(pageChanged)="pageChanged($event)"
+						previous-text="&lsaquo;" next-text="&rsaquo;"
+						first-text="First" last-text="Last">
+					</ng-pagination>
+				</div>
+				<div class="tab-pane" id="2" [ngClass]="{'active' : activeTab == 2}">
+					<label style="float:right"><i class="fa fa-search" aria-hidden="true"></i>
+                     <input type="text" [ngModel]="filterValueReminders"
+                      (ngModelChange)="filterData($event, 'reminderCalls')"></label>
+					<table class="table table-striped table-hover table-bordered">
+						<thead class="outreach-thead">
+							<tr>
+								<th class="col-md-2 left-align" (click)="sortColumn(callsData['reminderCalls'], 'MEM_NAME', 'string')">Member Name <i class="icon-left" [ngClass]="getSortClass('MEM_NAME')" aria-hidden="true"></i>
+								</th>
+								<th class="col-md-2 left-align" (click)="sortColumn(callsData['reminderCalls'], 'MSR_DUE_DT', 'date')">Measure Due Date <i class="icon-left" [ngClass]="getSortClass('MSR_DUE_DT')" aria-hidden="true"></i>
+								</th>
+								<th class="col-md-2 left-align" (click)="sortColumn(callsData['reminderCalls'], 'MSR_KEY', 'string')">Measure Key <i class="icon-left" [ngClass]="getSortClass('MSR_KEY')" aria-hidden="true"></i>
+								</th>
+								<th class="col-md-2 left-align" (click)="sortColumn(callsData['reminderCalls'], 'APPT_DT_TM', 'date')">Appointment Date <i class="icon-left" [ngClass]="getSortClass('APPT_DT_TM')" aria-hidden="true"></i>
+								</th>
+								<th class="col-md-2 left-align" (click)="sortColumn(callsData['reminderCalls'], 'PDT_TYPE', 'string')"> Product Type <i class="icon-left" [ngClass]="getSortClass('PDT_TYPE')" aria-hidden="true"></i>
+								</th>
+								<th class="col-md-2 left-align" (click)="sortColumn(callsData['reminderCalls'], 'PDR_NAME', 'string')">Provider Name <i class="icon-left" [ngClass]="getSortClass('PDR_NAME')" aria-hidden="true"></i>
+								</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="outreachRow" *ngFor="let row of getFilterData('reminderCalls')">
+								<td class="left-align">{{row.MEM_NAME}}</td>
+								<td class="left-align">{{row.MSR_DUE_DT | date:"MM/dd/yyyy"}}</td>
+								<td class="left-align">{{row.MSR_KEY}}</td>
+								<td class="left-align">{{row.APPT_DT_TM | date:"MM/dd/yyyy"}}
+									<i class="fa fa-flag" *ngIf="row.RemainingDays < 3"></i>
+								</td>
+								<td class="left-align">{{row.PDT_TYPE}}</td>
+								<td class="left-align">{{row.PDR_NAME}}</td>
+								<td>
+									<button class="btn btn-danger btn-sm" (click)="onInfoClick(row.MMP_ID)">Info</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ng-pagination *ngIf="showPagination('reminderCalls')" [totalItems]="paginationData.reminderCalls.totalItems" [(currentPage)]="paginationData.reminderCalls.currentPage"
+						[maxSize]="maxSize" [boundaryLinks]="true" (pageChanged)="pageChanged($event)" previous-text="&lsaquo;" next-text="&rsaquo;"
+						first-text="First" last-text="Last">
+					</ng-pagination>
+				</div>
+				<div class="tab-pane" id="3" [ngClass]="{'active' : activeTab == 3}">
+					<label style="float:right"><i class="fa fa-search" aria-hidden="true"></i>
+                     <input type="text" [ngModel]="filterValueFollowUp"
+                      (ngModelChange)="filterData($event, 'followUpCalls')"></label>
+					<table class="table table-striped table-bordered table-hover">
+						<thead class="outreach-thead">
+							<tr>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['followUpCalls'], 'MEM_NAME', 'string')">Member Name <i class="icon-left" [ngClass]="getSortClass('MEM_NAME')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['followUpCalls'], 'MSR_DUE_DT', 'date')">Measure Due Date <i class="icon-left" [ngClass]="getSortClass('MSR_DUE_DT')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['followUpCalls'], 'MSR_KEY', 'string')">Measure Key <i class="icon-left" [ngClass]="getSortClass('MSR_KEY')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['followUpCalls'], 'APPT_DT_TM', 'date')">Appointment Date <i class="icon-left" [ngClass]="getSortClass('APPT_DT_TM')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['followUpCalls'], 'PDT_TYPE', 'string')"> Product Type <i class="icon-left" [ngClass]="getSortClass('PDT_TYPE')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2" (click)="sortColumn(callsData['followUpCalls'], 'PDR_NAME', 'string')">Provider Name <i class="icon-left" [ngClass]="getSortClass('PDR_NAME')" aria-hidden="true"></i>
+								</th>
+								<th style="text-align:left" class="col-md-2"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="outreachRow" *ngFor="let row of getFilterData('followUpCalls')">
+								<td style="text-align:left">{{row.MEM_NAME}}</td>
+								<td style="text-align:left">{{row.MSR_DUE_DT| date:"MM/dd/yyyy"}}</td>
+								<td style="text-align:left">{{row.MSR_KEY}}</td>
+								<td style="text-align:left">{{row.APPT_DT_TM| date:"MM/dd/yyyy"}}</td>
+								<td style="text-align:left">{{row.PDT_TYPE}}</td>
+								<td style="text-align:left">{{row.PDR_NAME}}</td>
+								<td>
+									<button class="btn btn-danger btn-sm" (click)="onInfoClick(row.MMP_ID)">Info</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ng-pagination *ngIf="showPagination('followUpCalls')" [totalItems]="paginationData.followUpCalls.totalItems" [(currentPage)]="paginationData.followUpCalls.currentPage"
+						[maxSize]="maxSize" [boundaryLinks]="true" (pageChanged)="pageChanged($event)" previous-text="&lsaquo;" next-text="&rsaquo;"
+						first-text="First" last-text="Last">
+					</ng-pagination>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,227 @@
+<div class="panel-wrapper" style="width:80%; height: 700px">
+	<div class="panel-head">
+		<h3 class="tableForPrint">Reassign Agent</h3>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div class="row">
+							<!--<div *ngIf="isReAssignSuccess" class="alert alert-success alert-white rounded col-md-3">
+								<button type="button" data-dismiss="alert" aria-hidden="true" class="close" (click)="isReAssignSuccess = false">×</button>
+								<div class="icon">
+									<i class="fa fa-check"></i>
+									<strong>Reassigned successfully</strong>
+								</div>
+							</div>-->
+							<div *ngIf="formSubmitted && !validateReAssignDetails()" class="alert alert-danger alert-white">
+								<button type="button" (click)="formSubmitted=false" class="close">×</button>
+								<div class="icon">
+									<i class="fa fa-times-circle"></i>
+									<strong>From or To agent should not be logged in user</strong>
+								</div>
+							</div>
+							<div *ngIf="assignError" class="alert alert-danger alert-white rounded col-md-3">
+								<button type="button" (click)="assignError = false" class="close">×</button>
+								<div class="icon">
+									<i class="fa fa-times-circle"></i>
+									<strong>An error occurred while assigning agent.</strong>
+								</div>
+							</div>
+						</div>
+						<div class="container-fluid tableForPrint">
+							<div class="form-group">
+								<label class="col-sm-1 control-label">Agent</label>
+								<div class="col-sm-10">
+									<div class="row">
+										<div class="col-md-5">
+											<div class="input-group" style="max-width:270px">
+												<span class="input-group-addon">From</span>
+												<select class="form-control input-sm" [(ngModel)]="fromAgentId" name="full">
+													<option *ngFor="let agent of activeUsers"
+														value="{{agent.User_ID}}"
+														[ngClass]="{'hide': agent.User_ID == toAgentId}">
+														{{agent.fullName}}
+													</option>
+												</select>
+											</div>
+											<!-- /.input-group -->
+										</div>
+										<!-- /.col-md-6 -->
+										<div class="col-md-5">
+											<div class="input-group" style="max-width:250px">
+												<span class="input-group-addon">To</span>
+												<select class="form-control input-sm" [(ngModel)]="toAgentId" name="full" >
+													<option value="{{agent.User_ID}}"
+																[ngClass]="{'hide': agent.User_ID == fromAgentId}"
+														*ngFor="let agent of activeUsers">
+													{{agent.fullName}}
+													</option>
+                        						 </select>
+											</div>
+											<!-- /.input-group -->
+										</div>
+										<!-- /.col-md-6 -->
+									</div>
+									<!--/.row -->
+								</div>
+								<!--/.col-sm-10 -->
+							</div>
+							<!--/.form-group -->
+							<br>
+							<div class="form-group" style="padding-top:15px">
+								<label class="col-sm-1 control-label">Date</label>
+								<div class="col-sm-10">
+									<div class="row">
+										<div class="col-md-5">
+											<div class="input-group">
+												<span class="input-group-addon">From</span>
+												<div class='input-group date' style="position:relative">
+													<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(fromDate)" name="" />
+														<span class="input-group-addon" (click)="(fromDateOpen = !fromDateOpen)">
+																<span class="glyphicon glyphicon-calendar"></span>
+														</span>
+													<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="fromDateOpen"
+														(click)="calendarClicked = true">
+														<datepicker [(ngModel)]="fromDate" showWeeks="true"></datepicker>
+													</div>
+												</div>
+											</div>
+											<!-- /.input-group -->
+										</div>
+										<!-- /.col-md-6 -->
+										<div class="col-md-5">
+											<div class="input-group">
+												<span class="input-group-addon">To</span>
+												<div class='input-group date' style="position:relative">
+													<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(toDate)" />
+													<span class="input-group-addon" (click)="(toDateOpen = !toDateOpen)">
+                                                          <span class="glyphicon glyphicon-calendar"></span>
+													</span>
+													<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="toDateOpen"
+														(click)="calendarClicked = true">
+														<datepicker [(ngModel)]="toDate" showWeeks="true"></datepicker>
+													</div>
+												</div>
+											</div>
+											<!-- /.input-group -->
+										</div>
+										<!-- /.col-md-6 -->
+									</div>
+									<!--/.row -->
+								</div>
+								<!--/.col-sm-10 -->
+							</div>
+							<br>
+							<!--/.form-group -->
+						</div>
+
+						<!--/.container (DON'T NEST) -->
+						<!--/.container (DON'T NEST) -->
+
+						<!--	<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div>
+							<div class="col-md-2" style="padding:0px;left:60px">
+								<label>From Agent:</label>
+							</div>
+							<div class="col-md-3" style="padding:0px">
+								<select class="form-control input-sm" [(ngModel)]="fromAgentId">
+									<option *ngFor="let agent of getFromAgents()"
+											value="{{agent.User_ID}}">
+											{{agent.fullName}}
+									</option>
+                                </select>
+							</div>
+						</div>
+						<div>
+							<div class="col-md-2" style="padding:0px;left:70px">
+								<label>To Agent:</label>
+							</div>
+							<div class="col-md-3" style="padding:0px">
+								<select class="form-control input-sm" [(ngModel)]="toAgentId">
+                                   <option value="{{agent.User_ID}}"
+										*ngFor="let agent of getToAgents()">
+										{{agent.fullName}}
+									</option>
+                                </select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-2" style="padding:0px;left:70px">
+							<label>From Date:</label>
+						</div>
+						<div class="col-md-3" style="padding:0px;width:150px;left:10px;">
+							<div class='input-group date' style="position:relative">
+								<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(fromDate)" />
+								<span class="input-group-addon" (click)="(fromDateOpen = !fromDateOpen)">
+                                                          <span class="glyphicon glyphicon-calendar"></span>
+								</span>
+								<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="fromDateOpen"
+									(click)="calendarClicked = true">
+									<datepicker [(ngModel)]="fromDate" showWeeks="true"></datepicker>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2" style="padding:0px;left:160px">
+							<label>To Date:</label>
+						</div>
+						<div class="col-md-3" style="padding:0px;left:70px">
+							<div class='input-group date' style="position:relative">
+								<input type='text' class="form-control input-sm" readonly [ngModel]="getFormattedDate(toDate)" />
+								<span class="input-group-addon" (click)="(toDateOpen = !toDateOpen)">
+                                                          <span class="glyphicon glyphicon-calendar"></span>
+								</span>
+								<div class="sectionContent col-md-12" style="width:340px;position: absolute;top:35px;right:0px; z-index:10000" *ngIf="toDateOpen"
+									(click)="calendarClicked = true">
+									<datepicker [(ngModel)]="toDate" showWeeks="true"></datepicker>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-md-offset-5">
+						<button class="btn btn-danger" (click)="reAssignAgetns()">
+                            Assign
+                        </button>
+					</div>
+				</div>
+			</div>-->
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 col-md-offset-5">
+					<button class="btn btn-danger" (click)="reAssignAgetns()">
+                                             ASSIGN
+                     </button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal  fade in" id="reassignAgentSaveSuccessful" [ngClass]="{'display-block': reassignAgentSaveSuccessful}">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" (click)="refreshPage()">&times;</button>
+				<h3>Confirmation</h3>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-success alert-white">
+					Record Updated Successfully.
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" (click)="refreshPage()">OK</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,23 @@
+li.filter-by{
+    display: inline-block;
+    padding-right:10px;
+}
+
+@media print {
+ .tableForPrint {
+    top: -100px;
+  }
+  .panel-wrapper, .panel-body {
+    padding-left: 0px;
+  }
+  .TitleForPrint{
+      visibility: visible;
+  }
+  .TitleNotForPrint{
+      visibility: hidden;
+  }
+   .panel-wrapper {
+    font-size: 10px;
+  }
+
+}
